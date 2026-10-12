@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebMonitor 隐私政策</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 16px; line-height: 1.8; color: #222; }
+  h1 { font-size: 1.5em; } h2 { font-size: 1.15em; margin-top: 1.6em; }
+  .date { color: #888; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<h1>WebMonitor 隐私政策</h1>
+<p class="date">最近更新：2026 年 9 月 22 日</p>
+
+<p>WebMonitor（以下简称"本应用"）是一款网页监控工具。我们重视你的隐私。本政策说明本应用如何处理你的数据。</p>
+
+<h2>一、我们不收集什么</h2>
+<ul>
+  <li>无账号体系，不要求注册；</li>
+  <li>无广告、无第三方分析 SDK、无追踪行为；</li>
+  <li>不访问你的通讯录、照片、位置、相机、麦克风；</li>
+  <li><strong>你的账号密码从不离开设备</strong>（详见第三节的发送前拦截机制）。</li>
+</ul>
+
+<h2>二、数据存储在你的设备上</h2>
+<p>以下数据仅存储在你的设备本地，不会发送到开发者控制的任何服务器（我们没有运营任何接收用户数据的服务器）：</p>
+<ul>
+  <li><strong>网站账号密码</strong>：你主动选择保存的网页登录凭据，存储于 iOS 系统钥匙串（Keychain），仅本设备可读取；</li>
+  <li><strong>网页会话快照</strong>：你为保持监控页面登录态而保存的 Cookie / localStorage，同样存储于系统钥匙串；</li>
+  <li><strong>监控配置</strong>：你添加的监控网址、追踪元素、提醒设置、已录制的登录步骤骨架等，存储于本应用沙盒内。</li>
+</ul>
+
+<h2>三、网络请求说明</h2>
+<ul>
+  <li><strong>网页监控</strong>：本应用按你的指示访问你添加的网址，请求内容仅包含访问该网页本身所需的数据；</li>
+  <li><strong>AI 页面判定与自动登录（第三方模型服务）</strong>：为了判断页面状态（是否要求登录、是否被验证拦截）以及在你开启自动登录时决定下一步操作，本应用会将当前页面的
+      <strong>网址（URL）、网页标题、页面可见文本片段、可见按钮/链接的文案、页面结构骨架</strong>（标签层级、控件角色与文案）、<strong>一张缩小的当前页面截图</strong>（仅当所选模型能看图时发送，设置里可单独关闭；截图会包含页面上的可见内容）、以及<strong>被追踪元素的特征</strong>（标签、属性、文本样本）发送给你在设置中选择的第三方 AI 模型服务（目前可选：火山方舟 Agent Plan 的豆包模型，由字节跳动旗下火山引擎提供，服务器位于中国大陆（北京）；或经 OpenCode Zen 模型网关调用的对话模型），
+      由其返回判定结果，并据此代你点击按钮、切换标签、填写非敏感输入。请求中<strong>不包含你的密码</strong>：发送前程序会逐条比对已保存的密码，一旦命中即中止请求、不发出；
+      也不包含你的支付信息、证件信息、Cookie 与登录会话。该模型服务对其收到的数据的处理方式以其提供方的隐私政策为准；</li>
+  <li><strong>同意与默认状态</strong>：AI 页面判定<strong>默认关闭</strong>。在你首次启用之前，本应用会先展示说明页（发送什么、发送给谁、不发送什么），
+      只有在你明确点击同意后才会发出上述请求；未同意时不会发出任何上述请求。你可以随时在「设置 → AI 页面判定」关闭它，
+      关闭后同样不会再发出任何请求。若隐私政策的这一节发生实质变更，本应用会重新征求你的同意。</li>
+  <li><strong>通知</strong>：本应用仅在设备本地生成通知（监控内容变化、提醒到期），不会把你的设备标识上传给开发者或任何第三方服务器。</li>
+</ul>
+
+<h2>四、数据删除</h2>
+<p>删除本应用即可移除全部本地数据。你也可以在应用内的密码管理器中单独删除已保存的凭据。</p>
+
+<h2>五、政策变更</h2>
+<p>本政策如有更新，将在本页面公布。</p>
+
+<h2>六、联系我们</h2>
+<p>如对本政策有任何疑问，请通过 GitHub Issues 联系：<a href="https://github.com/lilingdeveloper/Local-Web-Monitor/issues">github.com/lilingdeveloper/Local-Web-Monitor</a></p>
+</body>
+</html>
