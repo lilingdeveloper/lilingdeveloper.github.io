@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebMonitor 技术支持与使用说明 / Technical Support</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --border: #e2e8f0;
+      --code-bg: rgba(15, 23, 42, 0.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --accent: #60a5fa;
+        --border: #334155;
+        --code-bg: rgba(255, 255, 255, 0.08);
+      }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 32px 16px 64px;
+      line-height: 1.75;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+    }
+    h1 { font-size: 1.55rem; margin-top: 0; margin-bottom: 0.4rem; }
+    h2 { font-size: 1.15rem; margin-top: 1.7rem; margin-bottom: 0.6rem; color: var(--text); }
+    p, li { font-size: 0.96rem; color: var(--text); }
+    ul, ol { padding-left: 1.3rem; }
+    li { margin-bottom: 0.45rem; }
+    .meta { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.4rem; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WebMonitor 技术支持与使用说明</h1>
+    <p class="meta">适用于 iOS / iPadOS 版本 WebMonitor</p>
+
+    <h2>一、功能简介</h2>
+    <p>WebMonitor 是一款在设备本地运行的网页数值监控与定期提醒工具。你可以添加需要关注的网页，指定页面上的特定文本或数值区域，由应用在本地加载页面、提取当前数值并在满足条件时发送本地通知。</p>
+
+    <h2>二、基本使用方法</h2>
+    <ol>
+      <li><strong>添加监控卡片</strong>：在看板页点击右上角添加按钮，输入目标网页地址并加载页面，点选页面中需要跟踪的数值或文本元素后保存。</li>
+      <li><strong>配置登录凭据与步骤（可选）</strong>：若目标页面需要登录，可在「设置 → 密码管理」中将账号密码保存在系统钥匙串（Keychain）中，或在卡片详情页的「登录步骤 / 取数步骤」中查看、调整或重新录制操作步骤。</li>
+      <li><strong>刷新与人工接管</strong>：在看板页下拉或点击卡片刷新即可执行检查。当网页出现图形验证码、短信验证或页面结构变更需要人工处理时，卡片会暂停自动步骤并提示展开实时网页浮层，供你直接在页面上完成验证。</li>
+    </ol>
+
+    <h2>三、常见问题（FAQ）</h2>
+    <ul>
+      <li><strong>为什么卡片提示需要手动操作？</strong><br>
+        当目标网站弹出验证码、二次验证或页面布局发生变化导致本地规则无法继续自动执行时，应用会暂停自动操作并保留当前页面状态，你可以展开实时网页窗口手动完成验证。</li>
+      <li><strong>保存的网站账号密码存储在哪里？</strong><br>
+        账号密码与网页会话 Cookie 仅加密存储在你设备的 iOS 系统钥匙串（Keychain）中，不会上传至开发者或任何第三方服务器。</li>
+      <li><strong>如何删除已保存的数据或已上传的诊断信息？</strong><br>
+        你可以在「设置 → 密码管理」中删除单条凭据；在「设置 → 日志与诊断」中关闭轨迹上传或点击「删除已上传的数据」清除服务端记录；卸载应用将移除本地沙盒中的全部卡片配置。</li>
+    </ul>
+
+    <h2>四、联系我们与隐私政策</h2>
+    <ul>
+      <li>技术支持邮箱：<a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a></li>
+      <li>隐私政策：<a href="https://lilingdeveloper.github.io/privacy.html">查看 WebMonitor 隐私政策</a></li>
+    </ul>
+
+    <hr class="divider" />
+
+    <h1>WebMonitor Technical Support</h1>
+    <p class="meta">For WebMonitor on iOS &amp; iPadOS</p>
+
+    <h2>1. Overview</h2>
+    <p>WebMonitor is an on-device utility for tracking specific text or numeric values on webpages and scheduling local reminders. It loads user-configured webpages directly on your device, extracts the selected page elements, and sends local notifications when values change or thresholds are met.</p>
+
+    <h2>2. Basic Usage</h2>
+    <ol>
+      <li><strong>Add a Monitoring Card</strong>: Tap the add button on the dashboard, enter the target webpage URL, select the text or number element you want to track on the loaded page, and save.</li>
+      <li><strong>Configure Credentials &amp; Steps (Optional)</strong>: For pages that require sign-in, you can store credentials in the iOS System Keychain via <em>Settings → Password Manager</em>, or inspect, edit, and re-record login and extraction steps in the Card Detail view.</li>
+      <li><strong>Refresh &amp; Manual Verification</strong>: Trigger a check from the dashboard. If a website presents a CAPTCHA, two-factor prompt, or layout change that requires manual input, the App pauses automatic execution and lets you open the live webpage overlay to complete verification directly.</li>
+    </ol>
+
+    <h2>3. Frequently Asked Questions</h2>
+    <ul>
+      <li><strong>Why does a card ask for manual interaction?</strong><br>
+        When a target webpage displays a CAPTCHA, verification code prompt, or significant layout change, automatic execution pauses so you can complete the interaction directly in the live webpage overlay.</li>
+      <li><strong>Where are my saved website passwords stored?</strong><br>
+        Saved website credentials and session cookies are stored exclusively in the iOS System Keychain on your device and are never transmitted to any developer or third-party server.</li>
+      <li><strong>How do I delete my data?</strong><br>
+        You can remove saved credentials in <em>Settings → Password Manager</em>, delete any uploaded step-trace metadata via <em>Settings → Logs &amp; Diagnostics → Delete Uploaded Data</em>, or uninstall the App to remove all local configurations.</li>
+    </ul>
+
+    <h2>4. Contact &amp; Privacy Policy</h2>
+    <ul>
+      <li>Support Email: <a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a></li>
+      <li>Privacy Policy: <a href="https://lilingdeveloper.github.io/privacy.html">View WebMonitor Privacy Policy</a></li>
+    </ul>
+  </div>
+</body>
+</html>
