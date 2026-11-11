@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宠备忘 隐私政策 — PetNote Privacy Policy</title>
+  <meta name="description" content="宠备忘（PetNote）隐私政策：无第三方统计与广告 SDK，无开发者后台服务器，纯本地 SQLite 与个人 Apple iCloud 存储，100% 设备端 Vision OCR。" />
+  <link rel="icon" type="image/png" href="./icon.png" />
+  <link rel="apple-touch-icon" href="./icon.png" />
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var q = (params.get("lang") || "").toLowerCase();
+      var saved = "";
+      try { saved = (localStorage.getItem("petnote_lang") || "").toLowerCase(); } catch (e) {}
+      var nav = ((navigator.language || navigator.userLanguage || "zh").toLowerCase());
+      var lang = "zh";
+      if (q === "en" || q.indexOf("en-") === 0) {
+        lang = "en";
+      } else if (q === "zh" || q.indexOf("zh-") === 0) {
+        lang = "zh";
+      } else if (saved === "en" || saved === "zh") {
+        lang = saved;
+      } else if (nav.indexOf("zh") !== 0) {
+        lang = "en";
+      }
+      document.documentElement.setAttribute("data-lang", lang);
+      document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #FBF6EE;
+      --card: #FFFDF9;
+      --inner: #F6EFE4;
+      --border: #E5D4C0;
+      --accent: #EE845A;
+      --text: #42332B;
+      --muted: #7A675B;
+      --radius-card: 16px;
+      --radius-inner: 12px;
+      --radius-tag: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html[data-lang="zh"] [data-i18n="en"] { display: none; }
+    html[data-lang="en"] [data-i18n="zh"] { display: none; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.76;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 18px 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: 0 4px 14px rgba(66, 51, 43, 0.04);
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1.02rem;
+      text-decoration: none;
+    }
+    .brand:hover { text-decoration: none; }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-tag);
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      padding: 4px 2px;
+    }
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      background: var(--inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-tag);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.3;
+    }
+
+    html[data-lang="zh"] .lang-btn[data-set-lang="zh"],
+    html[data-lang="en"] .lang-btn[data-set-lang="en"] {
+      background: var(--accent);
+      color: #FFFDF9;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: 0 4px 14px rgba(66, 51, 43, 0.04);
+      padding: 30px 28px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      line-height: 1.35;
+    }
+
+    .meta {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .summary-box {
+      background: var(--inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-inner);
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      font-size: 0.93rem;
+    }
+
+    h2 {
+      margin: 24px 0 8px;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    p, li {
+      font-size: 0.94rem;
+      color: var(--text);
+    }
+
+    ul {
+      margin: 8px 0 12px;
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+      padding-top: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .card { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand js-nav-link" href="./index.html">
+        <img src="./icon.png" alt="PetNote Icon" width="34" height="34" />
+        <span data-i18n="zh">宠备忘</span>
+        <span data-i18n="en">PetNote</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a class="js-nav-link" href="./index.html">
+            <span data-i18n="zh">功能介绍</span>
+            <span data-i18n="en">Overview</span>
+          </a>
+          <a class="active js-nav-link" href="./privacy.html">
+            <span data-i18n="zh">隐私政策</span>
+            <span data-i18n="en">Privacy</span>
+          </a>
+          <a class="js-nav-link" href="./support.html">
+            <span data-i18n="zh">技术支持</span>
+            <span data-i18n="en">Support</span>
+          </a>
+        </nav>
+        <div class="lang-switch" role="group" aria-label="Language Switch">
+          <button type="button" class="lang-btn" data-set-lang="zh">中文</button>
+          <button type="button" class="lang-btn" data-set-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chinese Privacy Policy -->
+    <main class="card" data-i18n="zh">
+      <h1>宠备忘（PetNote）隐私政策</h1>
+      <p class="meta">生效与最后更新日期：2026 年 11 月 11 日</p>
+
+      <div class="summary-box">
+        <strong>简要说明</strong>：宠备忘不设开发者后台服务器，未接入任何第三方数据分析、统计或广告 SDK。您的所有宠物档案、日常记录、照片与病历文档均保存在您的设备本地 SQLite 数据库及您个人的 Apple iCloud（CloudKit）空间中，化验单文字识别（OCR）100% 在设备本地运行。
+      </div>
+
+      <h2>1. 数据收集与第三方 SDK 说明</h2>
+      <ul>
+        <li>本应用无需注册或登录任何开发者账号即可使用。</li>
+        <li>本应用不包含任何第三方分析统计、崩溃追踪、用户画像或广告 SDK。</li>
+        <li>开发者不运营任何用于接收、存储或分析用户内容的后端服务器，无法查看或访问您的宠物记录、照片或文档。</li>
+      </ul>
+
+      <h2>2. 本地存储与 Apple iCloud（CloudKit）同步</h2>
+      <ul>
+        <li><strong>设备本地存储</strong>：您在应用内创建的宠物资料、排便排尿记录、饮食喂药记录、体重记录及附件均直接写入您 iPhone 或 iPad 本地的 SQLite 数据库与沙盒目录中。</li>
+        <li><strong>个人 iCloud 同步</strong>：当您的设备登录了 Apple 账户并开启 iCloud 功能时，应用会通过 Apple 官方的 CloudKit 框架将数据同步至您私有的 iCloud 数据库中，用于多设备备份与恢复。该过程受 Apple 的加密与隐私条款保护。</li>
+        <li><strong>家人共享（CKShare）</strong>：当您主动发起 iCloud 家人共享并将邀请链接发送给家庭成员时，对应宠物的记录仅通过 Apple CloudKit 共享数据库在「主人」与受邀「辅助照护人」之间同步。您可随时在设置中停止共享或移除协作成员。</li>
+      </ul>
+
+      <h2>3. 纯设备端文字识别（Vision OCR）与文件导入</h2>
+      <ul>
+        <li><strong>本地 OCR 处理</strong>：您在「病例」或导入功能中对化验单、处方笺、截图进行的文字与指标提取，完全调用 iOS / iPadOS 系统内置的 Apple Vision 框架在手机本地处理器上完成，不会将任何图片或识别出的文本发送至外部服务器或云端大模型。</li>
+        <li><strong>本地表格与文档解析</strong>：导入 Excel（.xlsx）、Numbers、CSV 与 PDF 文件时，所有文件读取与解析均在您的设备本地离线完成。</li>
+      </ul>
+
+      <h2>4. 系统权限使用范围</h2>
+      <p>本应用仅在您主动触发对应操作时请求必要的系统权限：</p>
+      <ul>
+        <li><strong>相机权限</strong>：仅在您选择现场拍摄宠物头像、日常记录配图或纸质病历化验单时调用。</li>
+        <li><strong>照片图库权限</strong>：仅在您主动从系统相册挑选宠物照片或化验单图片添加至记录时使用。</li>
+        <li><strong>文件选择器</strong>：仅读取您在系统文件选择器中明确点选的单个表格或 PDF 文档，应用不会扫描其他未授权文件。</li>
+      </ul>
+
+      <h2>5. 应用内购买（StoreKit 2）</h2>
+      <p>宠备忘提供可选的一次性买断解锁项目，全部交易与历史购买恢复均由 Apple 通过系统原生 StoreKit 2 接口直接处理。应用与开发者不会接触、收集或保存您的银行卡号、账单地址或 Apple ID 付款凭据。</p>
+
+      <h2>6. 数据控制与删除</h2>
+      <ul>
+        <li>您可以随时在应用内编辑或删除单条记录、病历附件或整份宠物档案。</li>
+        <li>卸载本应用会移除设备本地沙盒内的全部数据库与附件文件；如需同时清除 iCloud 中的同步副本，可在系统「设置 → Apple 账户 → iCloud」管理存储空间中删除本应用数据。</li>
+      </ul>
+
+      <h2>7. 政策更新与联系方式</h2>
+      <p>若未来本隐私政策发生变更，更新版本将直接发布在本页面并注明生效日期。如您对隐私保护有任何疑问，请通过电子邮件联系我们：</p>
+      <p>邮箱：<a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a></p>
+    </main>
+
+    <!-- English Privacy Policy -->
+    <main class="card" data-i18n="en">
+      <h1>PetNote Privacy Policy</h1>
+      <p class="meta">Effective &amp; Last Updated: November 11, 2026</p>
+
+      <div class="summary-box">
+        <strong>Summary</strong>: PetNote operates zero developer backend servers and embeds zero third-party analytics, tracking, or advertising SDKs. All pet profiles, daily logs, photos, and veterinary PDFs live locally in SQLite on your device and in your private Apple iCloud (CloudKit) storage. All OCR text extraction runs 100% on-device.
+      </div>
+
+      <h2>1. Information Collection &amp; Zero Third-Party SDKs</h2>
+      <ul>
+        <li>No developer account registration or sign-in is required to use PetNote.</li>
+        <li>The app contains zero third-party analytics, telemetry, profiling, or advertising SDKs.</li>
+        <li>We do not operate any backend servers that receive, store, or inspect user content. We have no technical access to your pet profiles, logs, photos, or medical documents.</li>
+      </ul>
+
+      <h2>2. Local SQLite &amp; Apple iCloud (CloudKit) Storage</h2>
+      <ul>
+        <li><strong>Local Storage</strong>: All pet profiles, stool and urine entries, meal and medication logs, weight records, and attachments are stored directly inside a local SQLite database and app sandbox on your iPhone or iPad.</li>
+        <li><strong>Private Apple iCloud Sync</strong>: When iCloud is enabled on your device, PetNote uses Apple's native CloudKit framework to sync your records into your personal, private iCloud container, governed by Apple's privacy and security standards.</li>
+        <li><strong>Family Sharing (CKShare)</strong>: If you choose to share care records with household members via Apple CloudKit (CKShare), shared pet records are exchanged strictly between the Owner and invited Helpers through Apple's CloudKit Shared Database. You can revoke sharing access at any time in Settings.</li>
+      </ul>
+
+      <h2>3. 100% On-Device Vision OCR &amp; File Import</h2>
+      <ul>
+        <li><strong>On-Device OCR</strong>: Text and lab indicator extraction for veterinary reports, prescriptions, and screenshots runs 100% locally on your device using Apple's system Vision framework. No images or extracted text are transmitted to external servers or cloud AI services.</li>
+        <li><strong>Local Document Parsing</strong>: Importing Excel (.xlsx), Numbers, CSV, and PDF files takes place entirely on your device.</li>
+      </ul>
+
+      <h2>4. System Permissions</h2>
+      <p>PetNote requests system access solely when you initiate the corresponding feature:</p>
+      <ul>
+        <li><strong>Camera</strong>: Used only when you choose to take a photo for a pet profile, care log, or paper veterinary sheet.</li>
+        <li><strong>Photo Library</strong>: Used only when you pick existing photos or lab report images to attach to a record.</li>
+        <li><strong>Files (Document Picker)</strong>: Accesses only the specific spreadsheet or PDF files you explicitly select in the iOS system picker.</li>
+      </ul>
+
+      <h2>5. In-App Purchases (StoreKit 2)</h2>
+      <p>Optional one-time lifetime unlocks and purchase restorations are processed directly by Apple via native StoreKit 2 APIs. PetNote never receives, processes, or stores your payment card details or billing information.</p>
+
+      <h2>6. Data Retention &amp; Deletion</h2>
+      <ul>
+        <li>You may edit or delete individual entries, attachments, or entire pet profiles within the app at any time.</li>
+        <li>Uninstalling PetNote deletes all local data stored in the app sandbox on that device. To remove synced iCloud records, you can manage or delete PetNote storage under iOS Settings → Apple Account → iCloud.</li>
+      </ul>
+
+      <h2>7. Updates &amp; Contact</h2>
+      <p>Any future revisions to this Privacy Policy will be published on this page with an updated effective date. For privacy questions, please contact:</p>
+      <p>Email: <a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a></p>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a class="js-nav-link" href="./index.html">
+          <span data-i18n="zh">功能介绍</span>
+          <span data-i18n="en">Overview</span>
+        </a>
+        <a class="js-nav-link" href="./privacy.html">
+          <span data-i18n="zh">隐私政策</span>
+          <span data-i18n="en">Privacy Policy</span>
+        </a>
+        <a class="js-nav-link" href="./support.html">
+          <span data-i18n="zh">技术支持</span>
+          <span data-i18n="en">Technical Support</span>
+        </a>
+        <a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a>
+      </div>
+      <div>© 2026 PetNote (宠备忘). All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var titles = {
+        zh: "宠备忘 隐私政策 — PetNote Privacy Policy",
+        en: "PetNote Privacy Policy"
+      };
+      function applyLang(lang, persist) {
+        document.documentElement.setAttribute("data-lang", lang);
+        document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
+        document.title = titles[lang] || titles.zh;
+        if (persist) {
+          try { localStorage.setItem("petnote_lang", lang); } catch (e) {}
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.set("lang", lang);
+            window.history.replaceState({}, "", url.toString());
+          } catch (e) {}
+        }
+        var links = document.querySelectorAll(".js-nav-link");
+        for (var i = 0; i < links.length; i++) {
+          var base = links[i].getAttribute("href").split("?")[0];
+          links[i].setAttribute("href", base + "?lang=" + lang);
+        }
+      }
+      var current = document.documentElement.getAttribute("data-lang") || "zh";
+      applyLang(current, false);
+      var btns = document.querySelectorAll(".lang-btn");
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].addEventListener("click", function () {
+          applyLang(this.getAttribute("data-set-lang"), true);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

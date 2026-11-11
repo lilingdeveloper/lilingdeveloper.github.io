@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宠备忘 PetNote — 宠物日常与病历记录</title>
+  <meta name="description" content="安静、克制的宠物日常照护与病历记录本。支持便便与尿尿分栏记录、口粮克数与药箱预设、纯本地化验单 OCR 归档、历史表格导入与 Apple iCloud 家人共享。" />
+  <link rel="icon" type="image/png" href="./icon.png" />
+  <link rel="apple-touch-icon" href="./icon.png" />
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var q = (params.get("lang") || "").toLowerCase();
+      var saved = "";
+      try { saved = (localStorage.getItem("petnote_lang") || "").toLowerCase(); } catch (e) {}
+      var nav = ((navigator.language || navigator.userLanguage || "zh").toLowerCase());
+      var lang = "zh";
+      if (q === "en" || q.indexOf("en-") === 0) {
+        lang = "en";
+      } else if (q === "zh" || q.indexOf("zh-") === 0) {
+        lang = "zh";
+      } else if (saved === "en" || saved === "zh") {
+        lang = saved;
+      } else if (nav.indexOf("zh") !== 0) {
+        lang = "en";
+      }
+      document.documentElement.setAttribute("data-lang", lang);
+      document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #FBF6EE;
+      --card: #FFFDF9;
+      --inner: #F6EFE4;
+      --border: #E5D4C0;
+      --accent: #EE845A;
+      --accent-soft: #FBE9DF;
+      --text: #42332B;
+      --muted: #7A675B;
+      --radius-card: 16px;
+      --radius-inner: 12px;
+      --radius-tag: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html[data-lang="zh"] [data-i18n="en"] { display: none; }
+    html[data-lang="en"] [data-i18n="zh"] { display: none; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 18px 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: 0 4px 14px rgba(66, 51, 43, 0.04);
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1.02rem;
+      text-decoration: none;
+    }
+    .brand:hover { text-decoration: none; }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-tag);
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      padding: 4px 2px;
+    }
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      background: var(--inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-tag);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.3;
+    }
+
+    html[data-lang="zh"] .lang-btn[data-set-lang="zh"],
+    html[data-lang="en"] .lang-btn[data-set-lang="en"] {
+      background: var(--accent);
+      color: #FFFDF9;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: 0 4px 14px rgba(66, 51, 43, 0.04);
+      padding: 28px 26px;
+      margin-bottom: 18px;
+    }
+
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+    }
+
+    .hero-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .hero-body h1 {
+      margin: 0 0 6px;
+      font-size: 1.58rem;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-sub {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--text);
+      background: var(--inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-tag);
+      padding: 3px 10px;
+    }
+
+    .tag-accent {
+      background: var(--accent-soft);
+      color: #9A4826;
+      border-color: #EBC5B0;
+    }
+
+    .hero-desc {
+      margin: 0;
+      font-size: 0.96rem;
+      color: var(--text);
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 1.18rem;
+      line-height: 1.35;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .inner-box {
+      background: var(--inner);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-inner);
+      padding: 16px 18px;
+    }
+
+    .inner-box.full {
+      grid-column: 1 / -1;
+    }
+
+    .inner-box h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .inner-box p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .role-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--radius-tag);
+      background: var(--card);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .list-clean {
+      margin: 8px 0 0;
+      padding-left: 1.2rem;
+      color: var(--text);
+      font-size: 0.93rem;
+    }
+    .list-clean li {
+      margin-bottom: 6px;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+      padding-top: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .card { padding: 22px 18px; }
+      .hero { flex-direction: column; gap: 16px; }
+      .hero-icon { width: 76px; height: 76px; border-radius: 18px; }
+      .feature-grid, .role-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand js-nav-link" href="./index.html">
+        <img src="./icon.png" alt="PetNote Icon" width="34" height="34" />
+        <span data-i18n="zh">宠备忘</span>
+        <span data-i18n="en">PetNote</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a class="active js-nav-link" href="./index.html">
+            <span data-i18n="zh">功能介绍</span>
+            <span data-i18n="en">Overview</span>
+          </a>
+          <a class="js-nav-link" href="./privacy.html">
+            <span data-i18n="zh">隐私政策</span>
+            <span data-i18n="en">Privacy</span>
+          </a>
+          <a class="js-nav-link" href="./support.html">
+            <span data-i18n="zh">技术支持</span>
+            <span data-i18n="en">Support</span>
+          </a>
+        </nav>
+        <div class="lang-switch" role="group" aria-label="Language Switch">
+          <button type="button" class="lang-btn" data-set-lang="zh">中文</button>
+          <button type="button" class="lang-btn" data-set-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chinese Content -->
+    <main data-i18n="zh">
+      <section class="card hero">
+        <img class="hero-icon" src="./icon.png" alt="宠备忘应用图标" width="88" height="88" />
+        <div class="hero-body">
+          <h1>宠备忘：宠物日常与病历记录</h1>
+          <p class="hero-sub">猫咪狗狗饮食、排便喂药与共享</p>
+          <div class="tag-row">
+            <span class="tag tag-accent">iOS · iPadOS</span>
+            <span class="tag">纯设备端本地存储 + 个人 iCloud</span>
+            <span class="tag">无广告 · 无第三方追踪</span>
+          </div>
+          <p class="hero-desc">
+            宠备忘是一本像纸质手账一样安静、克制的宠物照护记录册。没有社区信息流与冗余提醒，专注于把猫咪和狗狗每天的排便排尿、饮食克数、日常用药、体重变化以及就诊化验单条理清晰地保存在你自己的设备里。
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">日常记录与病历归档</h2>
+        <div class="feature-grid">
+          <div class="inner-box">
+            <h3>便便与尿尿分栏记录</h3>
+            <p>将每日排便与排尿分开登记，通过温和清晰的状态底色区分成型便、软便、水样便及排尿变化。日常观察或复诊回顾时，肠胃与泌尿趋势清楚易读。</p>
+          </div>
+          <div class="inner-box">
+            <h3>吃喝、吃药与日常体重</h3>
+            <p>支持设置常用主粮、罐头或自制餐食的克数预设，以及扁平化的常用药箱预设。每日喂食、喂药、称重与照护备注轻点即可完成记录。</p>
+          </div>
+          <div class="inner-box">
+            <h3>病例归档与纯本地化验单提取</h3>
+            <p>按就诊记录保存照片与 PDF 报告（如血常规、生化检查单、处方笺）。采用系统内置 Vision 框架在手机本地完成文字与指标提取（OCR），文件不上传外部服务器。</p>
+          </div>
+          <div class="inner-box">
+            <h3>既往表格与历史文档导入</h3>
+            <p>如果过去习惯用电子表格记录宠物情况，可在设备端直接导入 Excel（.xlsx）、Numbers、CSV、PDF 或历史截图，平顺衔接既有记录。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">基于 Apple iCloud 的家人共享分工</h2>
+        <p style="margin: 0; font-size: 0.94rem; color: var(--muted);">
+          宠备忘通过 Apple 原生 CloudKit（CKShare）实现家庭成员或照护伙伴之间的同步，无需注册第三方账号，并区分两种角色权限以减少误操作：
+        </p>
+        <div class="role-grid">
+          <div class="inner-box">
+            <span class="role-label">主人（Owner）</span>
+            <p>创建并管理宠物基础档案、口粮配方克数预设与药箱预设，可通过系统共享面板向家人发送邀请链接，也可随时调整或收回共享权限。</p>
+          </div>
+          <div class="inner-box">
+            <span class="role-label">辅助照护人（Helper）</span>
+            <p>受邀家人通过链接免费加入，可查看历史情况并新增、维护每日便便尿尿、喂食喂药、体重与照护记录，同时不会误改既定的口粮克数或用药预设。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">费用说明</h2>
+        <ul class="list-clean">
+          <li><strong>单宠完整功能免费</strong>：免费下载。1 只宠物的全部日常排泄与饮食喂药记录、不限数量的病例与化验单归档、历史表格导入以及全部 3 款纸张主题配色均完全免费使用。</li>
+          <li><strong>一次性买断解锁（无订阅）</strong>：仅在需要添加第 2 只及以上宠物档案，或作为「主人」发起 iCloud 家人共享时，需支付一次性买断费用。无包月或包年订阅，无自动续费。</li>
+          <li><strong>受邀家人无需重复付费</strong>：通过共享链接加入协作的「辅助照护人」可直接免费参与记录，无需再次购买。</li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- English Content -->
+    <main data-i18n="en">
+      <section class="card hero">
+        <img class="hero-icon" src="./icon.png" alt="PetNote App Icon" width="88" height="88" />
+        <div class="hero-body">
+          <h1>PetNote: Pet Care &amp; Vet Log</h1>
+          <p class="hero-sub">Meals, Meds, Stool &amp; Sync</p>
+          <div class="tag-row">
+            <span class="tag tag-accent">iOS · iPadOS</span>
+            <span class="tag">Local SQLite + Private Apple iCloud</span>
+            <span class="tag">No Ads · Zero Tracking SDKs</span>
+          </div>
+          <p class="hero-desc">
+            PetNote is a quiet, paper-inspired notebook for cat and dog households. Free of social feeds and unnecessary noise, it keeps daily excretion logs, meal portions, medication schedules, weight history, and veterinary lab reports neatly organized on your own devices.
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Daily Care &amp; Veterinary Archive</h2>
+        <div class="feature-grid">
+          <div class="inner-box">
+            <h3>Separate Stool &amp; Urine Logs</h3>
+            <p>Record bowel movements and urination separately with clear status shading for formed, soft, or watery stool and urinary changes, making patterns easy to review before a vet visit.</p>
+          </div>
+          <div class="inner-box">
+            <h3>Diet, Medication Cabinet &amp; Weight</h3>
+            <p>Configure gram presets for dry food, wet food, or home-prepared recipes alongside flat medication cabinet presets. Log daily feedings, doses, body weight, and care notes in a few taps.</p>
+          </div>
+          <div class="inner-box">
+            <h3>Vet Records &amp; On-Device Lab OCR</h3>
+            <p>Archive clinic photos and PDF documents such as bloodwork panels, urinalysis sheets, and prescriptions. Text and indicator extraction runs 100% on-device via Apple Vision without external uploads.</p>
+          </div>
+          <div class="inner-box">
+            <h3>Spreadsheet &amp; Document Import</h3>
+            <p>Bring over earlier care logs directly on your device from Excel (.xlsx), Numbers, CSV, PDF files, or screenshots so past history stays in one place.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Family Sharing via Apple iCloud</h2>
+        <p style="margin: 0; font-size: 0.94rem; color: var(--muted);">
+          PetNote uses Apple CloudKit (CKShare) to coordinate daily care across family members or pet sitters with no third-party account required, separating permissions into two clear roles:
+        </p>
+        <div class="role-grid">
+          <div class="inner-box">
+            <span class="role-label">Owner</span>
+            <p>Manages pet profiles, food portion recipes, and medication cabinet presets, invites household helpers via iCloud link, and retains full control over sharing access.</p>
+          </div>
+          <div class="inner-box">
+            <span class="role-label">Family Helper</span>
+            <p>Joins at no cost via invitation link to view history and log daily stool, urine, meals, medications, weight, and care notes without risking accidental edits to food or medication presets.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="section-title">Transparent Pricing</h2>
+        <ul class="list-clean">
+          <li><strong>Free for 1 Pet</strong>: Free to download. All daily logging, unlimited veterinary and lab report archiving, spreadsheet import, and all 3 paper color themes for 1 pet are completely free.</li>
+          <li><strong>One-Time Lifetime Unlock (No Subscriptions)</strong>: A single lifetime purchase is only required to add 2 or more pet profiles or to initiate iCloud family sharing as an Owner. There are no recurring subscriptions and no auto-renewals.</li>
+          <li><strong>Free for Invited Helpers</strong>: Family helpers invited through an Owner's iCloud share link join and log records at no additional charge.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a class="js-nav-link" href="./index.html">
+          <span data-i18n="zh">功能介绍</span>
+          <span data-i18n="en">Overview</span>
+        </a>
+        <a class="js-nav-link" href="./privacy.html">
+          <span data-i18n="zh">隐私政策</span>
+          <span data-i18n="en">Privacy Policy</span>
+        </a>
+        <a class="js-nav-link" href="./support.html">
+          <span data-i18n="zh">技术支持</span>
+          <span data-i18n="en">Technical Support</span>
+        </a>
+        <a href="mailto:liling.developer@gmail.com">liling.developer@gmail.com</a>
+      </div>
+      <div>© 2026 PetNote (宠备忘). All rights reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var titles = {
+        zh: "宠备忘 PetNote — 宠物日常与病历记录",
+        en: "PetNote — Pet Care & Vet Log"
+      };
+      function applyLang(lang, persist) {
+        document.documentElement.setAttribute("data-lang", lang);
+        document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
+        document.title = titles[lang] || titles.zh;
+        if (persist) {
+          try { localStorage.setItem("petnote_lang", lang); } catch (e) {}
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.set("lang", lang);
+            window.history.replaceState({}, "", url.toString());
+          } catch (e) {}
+        }
+        var links = document.querySelectorAll(".js-nav-link");
+        for (var i = 0; i < links.length; i++) {
+          var base = links[i].getAttribute("href").split("?")[0];
+          links[i].setAttribute("href", base + "?lang=" + lang);
+        }
+      }
+      var current = document.documentElement.getAttribute("data-lang") || "zh";
+      applyLang(current, false);
+      var btns = document.querySelectorAll(".lang-btn");
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].addEventListener("click", function () {
+          applyLang(this.getAttribute("data-set-lang"), true);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
